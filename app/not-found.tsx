@@ -1,4 +1,3 @@
-import StickyNavbar from "@/components/navbar/StickyNavbar";
 import Image from "next/image";
 import React from "react";
 import img from "/public/assets/404-status-code.png";
@@ -6,7 +5,6 @@ import img from "/public/assets/404-status-code.png";
 export default function Notfound() {
   return (
     <>
-      <StickyNavbar />
       <section className="bg-white container mx-auto dark:bg-gray-900 ">
         <div className="container min-h-screen px-6 py-12 mx-auto lg:flex lg:items-center lg:gap-12">
           <div className="wf-ull lg:w-1/2">
