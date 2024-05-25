@@ -18,12 +18,11 @@ import {
 import React, { useState } from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import { usePathname } from "next/navigation";
+import useCurrentLanguage from "@/hooks/useCurrentLanguage";
 
 export default function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const pathName = usePathname();
-  const currentLanguage = pathName.split("/")[1] || "en";
+  const currentLanguage = useCurrentLanguage();
 
   const closeMenu = () => setIsMenuOpen(false);
 

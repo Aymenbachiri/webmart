@@ -1,4 +1,4 @@
-import ProductDetails from "@/components/ProductDetails";
+import ProductDetails from "@/components/product/ProductDetails";
 import React from "react";
 
 async function getData(id: string) {

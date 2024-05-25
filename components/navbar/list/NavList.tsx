@@ -1,17 +1,15 @@
 "use client";
 import { CommonProps } from "@/constants/Constants";
+import useCart from "@/hooks/useCart";
+import useCurrentLanguage from "@/hooks/useCurrentLanguage";
 import Cart from "@/svg/Cart";
 import { Button, Typography } from "@material-tailwind/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
-import { useSelector } from "react-redux";
 
 export default function NavList() {
-  const cart = useSelector((state: any) => state.shop.products);
-  const pathName = usePathname();
-  const currentLanguage = pathName.split("/")[1] || "en";
+  const cart = useCart();
+  const currentLanguage = useCurrentLanguage();
   const session = useSession();
   return (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">

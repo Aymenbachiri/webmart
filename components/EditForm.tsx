@@ -1,18 +1,11 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
-import React, { FormEvent, useState } from "react";
+import { ProductDetailsProps } from "@/types/types";
+import InputField from "@/components/InputField";
+import { useFormState } from "@/hooks/useFormState";
 import { useSession } from "next-auth/react";
-
-interface ProductDetails {
-  id: string;
-  title: string;
-  category: string;
-  price: number;
-  description: string;
-  imageurl: string;
-  rating: number;
-}
+import useCurrentLanguage from "@/hooks/useCurrentLanguage";
+import { useHandleEdit } from "@/hooks/useHandleEdit";
 
 export default function EditForm({
   id,
@@ -22,137 +15,81 @@ export default function EditForm({
   description: initialDescription,
   imageurl: initialImageUrl,
   rating: initialRating,
-}: ProductDetails) {
-  const router = useRouter();
+}: ProductDetailsProps) {
   const session = useSession();
-  const [title, setTitle] = useState<string>(initialTitle);
-  const [category, setCategory] = useState<string>(initialCategory);
-  const [price, setPrice] = useState<number>(initialPrice);
-  const [description, setDescription] = useState<string>(initialDescription);
-  const [imageurl, setImageUrl] = useState<string>(initialImageUrl);
-  const [rating, setRating] = useState<number>(initialRating);
-  const pathName = usePathname();
-  const currentLanguage = pathName.split("/")[1] || "en";
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const currentLanguage = useCurrentLanguage();
 
-    try {
-      const res = await fetch(`/api/products/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          description,
-          category,
-          imageurl,
-          price,
-          rating,
-        }),
-      });
-      if (res.ok) {
-        router.push(`/${currentLanguage}/dashboard`);
-      } else {
-        throw new Error("Failed to edit product");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  if (!session || session.status === "unauthenticated") {
-    router.push("/login");
-    return null;
-  }
+  const [formState, handleChange] = useFormState({
+    title: initialTitle,
+    category: initialCategory,
+    price: initialPrice,
+    description: initialDescription,
+    imageurl: initialImageUrl,
+    rating: initialRating,
+  });
+  const { title, category, price, description, imageurl, rating } = formState;
 
-  if (session.status === "authenticated") {
+  const handleEdit = useHandleEdit(id, formState, currentLanguage);
+
+  if (session && session.status === "authenticated") {
     return (
       <div className="max-w-md mx-auto mt-10 bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="text-2xl py-4 px-6 bg-orange-600 text-white text-center font-bold uppercase">
           Edit a Product
         </div>
-        <form onSubmit={handleSubmit} className="py-4 px-6">
-          <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2">Title</label>
-            <input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              placeholder="Enter product title"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2">
-              Description
-            </label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="shadow appearance-none resize-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              rows={4}
-              required
-              placeholder="Enter product description"
-            ></textarea>
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2">
-              Category
-            </label>
-            <select
-              required
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option disabled value="">
-                Select a category
-              </option>
-              <option value="men">Men</option>
-              <option value="women">Women</option>
-              <option value="electronics">Electronics</option>
-              <option value="jewelery">Jewelery</option>
-            </select>
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2">
-              Image url
-            </label>
-            <input
-              value={imageurl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              placeholder="Example www.unsplash.com/photos/1352"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2">
-              Price in $$
-            </label>
-            <input
-              value={price}
-              onChange={(e) => setPrice(e.target.value as any)}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="number"
-              placeholder="Enter the discount Price"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2">Rating</label>
-            <input
-              value={rating}
-              onChange={(e) => setRating(e.target.value as any)}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="number"
-              placeholder="Enter a rating from 1-5"
-              required
-            />
-          </div>
-
+        <form onSubmit={handleEdit} className="py-4 px-6">
+          <InputField
+            label="Title"
+            name="title"
+            value={title}
+            onChange={handleChange}
+            placeholder="Enter product title"
+          />
+          <InputField
+            label="Description"
+            name="description"
+            value={description}
+            onChange={handleChange}
+            type="textarea"
+            placeholder="Enter product description"
+          />
+          <InputField
+            label="Category"
+            name="category"
+            value={category}
+            onChange={handleChange}
+            type="select"
+            placeholder="Select a category"
+            options={[
+              { value: "men", label: "Men" },
+              { value: "women", label: "Women" },
+              { value: "electronics", label: "Electronics" },
+              { value: "jewelery", label: "Jewelery" },
+            ]}
+          />
+          <InputField
+            label="Image url"
+            name="imageurl"
+            value={imageurl}
+            onChange={handleChange}
+            placeholder="Example www.unsplash.com/photos/1352"
+          />
+          <InputField
+            label="Price in $$"
+            name="price"
+            value={price}
+            onChange={handleChange}
+            type="number"
+            placeholder="Enter the discount Price"
+          />
+          <InputField
+            label="Rating"
+            name="rating"
+            value={rating}
+            onChange={handleChange}
+            type="number"
+            placeholder="Enter a rating from 1-5"
+          />
           <div className="flex items-center justify-center mb-4">
             <button
               className="bg-orange-600 font-bold text-white py-2 px-4 rounded hover:bg-orange-800 focus:outline-none focus:shadow-outline"
@@ -165,4 +102,6 @@ export default function EditForm({
       </div>
     );
   }
+
+  return null;
 }

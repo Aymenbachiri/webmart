@@ -8,19 +8,18 @@ import Link from "next/link";
 import logo from "/public/assets/logo.png";
 import Image from "next/image";
 import Cart from "@/svg/Cart";
-import { usePathname } from "next/navigation";
-import { useSelector } from "react-redux";
 import { CommonProps } from "@/constants/Constants";
 import NavList from "./list/NavList";
 import ProfileMenu from "./menu/ProfileMenu";
 import TranslationMenu from "./menu/TranslationMenu";
 import { useSession } from "next-auth/react";
+import useCurrentLanguage from "@/hooks/useCurrentLanguage";
+import useCart from "@/hooks/useCart";
 
 export default function StickyNavbar() {
   const { openNav, setOpenNav } = useResponsiveNav();
-  const cart = useSelector((state: any) => state.shop.products);
-  const pathName = usePathname();
-  const currentLanguage = pathName.split("/")[1] || "en";
+  const currentLanguage = useCurrentLanguage();
+  const cart = useCart();
   const session = useSession();
   return (
     <div className="max-h-[768px] container mx-auto">

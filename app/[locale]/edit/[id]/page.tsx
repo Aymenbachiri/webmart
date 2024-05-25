@@ -22,6 +22,7 @@ export default async function Edit({ params }: { params: { id: string } }) {
       description={product.description}
       imageurl={product.imageurl}
       rating={product.rating}
+      creator={""}
     />
   );
 }

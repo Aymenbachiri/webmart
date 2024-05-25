@@ -4,7 +4,6 @@ export default function EditProfilePage() {
       <div className="p-2 md:p-4">
         <div className="w-full px-6 pb-8 mt-8  sm:rounded-lg">
           <h2 className="pl-6 text-2xl font-bold sm:text-xl">Public Profile</h2>
-
           <div className="grid max-w-2xl mx-auto mt-8">
             <div className="flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0">
               <img
@@ -13,7 +12,6 @@ export default function EditProfilePage() {
                 alt="Bordered avatar"
               />
             </div>
-
             <div className="items-center mt-8 sm:mt-14 text-[#202142]">
               <div className="flex flex-col items-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6">
                 <div className="w-full">
@@ -33,7 +31,6 @@ export default function EditProfilePage() {
                   />
                 </div>
               </div>
-
               <div className="mb-2 sm:mb-6">
                 <label
                   htmlFor="email"

@@ -1,50 +1,20 @@
 "use client";
-import Email from "@/svg/form/Email";
-import Password from "@/svg/form/Password";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import InputField from "@/components/InputField";
+import { useLogin } from "@/hooks/useLogin";
+
 import ReCAPTCHA from "react-google-recaptcha";
 
 export default function LoginPage() {
-  const router = useRouter();
-  const [err, setErr] = useState<Error>();
-  const [captcha, setCaptcha] = useState(false);
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    const target = e.target as HTMLFormElement;
-    const email = (target[0] as HTMLInputElement).value;
-    const password = (target[1] as HTMLInputElement).value;
+  const {
+    formData,
+    err,
+    captcha,
+    setCaptcha,
+    handleChange,
+    handleSubmit,
+    loading,
+  } = useLogin();
 
-    try {
-      const res: any = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-      if (!res.ok) {
-        throw new Error(res.error);
-      }
-      if (!captcha) {
-        throw new Error("Captcha failed you must be a robot");
-      }
-      if (res.ok && captcha) {
-        alert("Welcome Back");
-        router.push("/dashboard");
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        // Handle specific errors of type Error
-        console.error("An error occurred:", error.message);
-        setErr(error);
-      } else {
-        // Handle other types of errors
-        console.error("An unknown error occurred:", error);
-      }
-
-      console.log(error);
-    }
-  };
   return (
     <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-lg text-center">
@@ -58,36 +28,22 @@ export default function LoginPage() {
         onSubmit={handleSubmit}
         className="mx-auto mb-0 mt-8 max-w-md space-y-4"
       >
-        <div>
-          <label htmlFor="email" className="sr-only">
-            Email
-          </label>
-          <div className="relative">
-            <input
-              type="email"
-              className="w-full rounded-lg border border-gray-400 p-4 pe-12 text-sm shadow-sm"
-              placeholder="Enter email"
-            />
-            <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-              <Email />
-            </span>
-          </div>
-        </div>
-        <div>
-          <label htmlFor="password" className="sr-only">
-            Password
-          </label>
-          <div className="relative">
-            <input
-              type="password"
-              className="w-full rounded-lg border border-gray-400 p-4 pe-12 text-sm shadow-sm"
-              placeholder="Enter password"
-            />
-            <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-              <Password />
-            </span>
-          </div>
-        </div>
+        <InputField
+          label="Email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          type="email"
+          placeholder="Enter email"
+        />
+        <InputField
+          label="Password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          type="password"
+          placeholder="Enter password"
+        />
         <ReCAPTCHA
           onChange={() => setCaptcha(true)}
           sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
@@ -103,10 +59,12 @@ export default function LoginPage() {
           <button
             type="submit"
             className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
+            disabled={loading}
           >
-            Sign in
+            {loading ? "Signing in..." : "Sign in"}
           </button>
         </div>
+        {err && <p className="text-red-500 mt-2">{err.message}</p>}
       </form>
     </div>
   );
