@@ -5,10 +5,12 @@ import useCurrentLanguage from "@/hooks/useCurrentLanguage";
 import { useFormState } from "@/hooks/useFormState";
 import { useHandleSubmit } from "@/hooks/useHandleSubmit";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Sell() {
   const session = useSession();
   const currentLanguage = useCurrentLanguage();
+  const router = useRouter();
 
   const [formState, handleChange] = useFormState({
     title: "",
@@ -23,6 +25,10 @@ export default function Sell() {
   const userEmail = session.data?.user?.email ?? undefined;
 
   const handleSubmit = useHandleSubmit(formState, currentLanguage, userEmail);
+
+  if (session.status === "unauthenticated") {
+    router.push(`/${currentLanguage}/login`);
+  }
 
   if (session.status === "authenticated") {
     return (
