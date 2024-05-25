@@ -17,6 +17,7 @@ const persistConfig = {
   version: 1,
   storage,
 };
+
 const persistedReducer = persistReducer(persistConfig, shopReducer);
 
 export const store = configureStore({
@@ -28,4 +29,8 @@ export const store = configureStore({
       },
     }),
 });
+
 export let persistor = persistStore(store);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

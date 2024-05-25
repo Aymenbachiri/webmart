@@ -5,11 +5,14 @@ import {
   increaseQuantity,
   removeFromCart,
 } from "@/reduxToolkit/shoperStoreSlice";
+import { RootState } from "@/reduxToolkit/store";
 import { Product } from "@/types/types";
 import { useDispatch, useSelector } from "react-redux";
 
 const useCart = () => {
-  const products: Product[] = useSelector((state: any) => state.shop.products);
+  const products: Product[] = useSelector(
+    (state: RootState) => state.shop.products
+  );
   const dispatch = useDispatch();
 
   const totalPrice = products.reduce((acc, product) => {
