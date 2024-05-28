@@ -87,3 +87,12 @@ export interface CartCheckoutProps {
   totalPrice: number;
   handleResetCart: () => void;
 }
+
+export interface PageProps {
+  params: { locale: string };
+}
+
+export interface HreflangProps {
+  supportedLanguages: string[];
+  defaultLocale: string;
+}

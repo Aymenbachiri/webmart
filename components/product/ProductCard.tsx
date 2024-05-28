@@ -1,6 +1,5 @@
-// components/ProductCard.tsx
+"use client";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
 import { ProductDetails } from "@/types/types";
 import useAddToCart from "@/hooks/useAddToCart";
 

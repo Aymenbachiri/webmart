@@ -6,6 +6,7 @@ import StickyNavbar from "@/components/navbar/StickyNavbar";
 import AuthProvider from "@/components/providers/AuthProvider";
 import MaterialTailwindProvider from "@/components/providers/MaterialTailwindProvider";
 import ReduxProvider from "@/components/providers/ReduxProvider";
+import Hreflang from "@/components/translation/Hreflang";
 
 export default function LocaleLayout({
   children,
@@ -20,8 +21,16 @@ export default function LocaleLayout({
   if (nextLocale !== locale) {
     notFound();
   }
+  const supportedLanguages = ["en", "fr", "ar"];
+  const defaultLocale = "en";
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
+      <head>
+        <Hreflang
+          supportedLanguages={supportedLanguages}
+          defaultLocale={defaultLocale}
+        />
+      </head>
       <body>
         <AuthProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
