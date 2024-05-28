@@ -1,4 +1,4 @@
-import { commonPropsTypes } from "@/types/types";
+import type { commonPropsTypes } from "@/types/types";
 
 export const CommonProps: commonPropsTypes = {
   children: "",

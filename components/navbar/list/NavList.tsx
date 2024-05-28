@@ -5,12 +5,14 @@ import useCurrentLanguage from "@/hooks/useCurrentLanguage";
 import Cart from "@/svg/Cart";
 import { Button, Typography } from "@material-tailwind/react";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 export default function NavList() {
   const cart = useCart();
   const currentLanguage = useCurrentLanguage();
   const session = useSession();
+  const t = useTranslations("Navbar");
   return (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <Typography
@@ -21,7 +23,7 @@ export default function NavList() {
         className="p-1 font-normal"
       >
         <Link href="/" className="flex items-center">
-          Home
+          {t("home")}
         </Link>
       </Typography>
       <Typography
@@ -35,7 +37,7 @@ export default function NavList() {
           href={`/${currentLanguage}/products`}
           className="flex items-center"
         >
-          Products
+          {t("products")}
         </Link>
       </Typography>
       <Typography
@@ -46,7 +48,7 @@ export default function NavList() {
         className="p-1 font-normal"
       >
         <Link href={`/${currentLanguage}/sell`} className="flex items-center">
-          Sell My Product
+          {t("sell my products")}
         </Link>
       </Typography>
       <Typography
@@ -84,7 +86,7 @@ export default function NavList() {
               size="sm"
               className="inline-block"
             >
-              Log in
+              {t("log in")}
             </Button>
           </Link>
         </Typography>

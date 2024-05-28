@@ -1,5 +1,8 @@
 {
-  "Index": {
-    "title": "Bonjour monde!"
+  "Navbar": {
+    "home": "maison",
+    "products": "produits",
+    "sell my products": "vendre mes produits",
+    "log in": "inscrivez-vous"
   }
 }

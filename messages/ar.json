@@ -1,5 +1,8 @@
 {
-  "Index": {
-    "title": "مرحبا عالم"
+  "Navbar": {
+    "home": "الرئيسية",
+    "products": "المنتجات",
+    "sell my products": "بع منتجاتك",
+    "log in": "تسجيل الدخول"
   }
 }
