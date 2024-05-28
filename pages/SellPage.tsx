@@ -17,7 +17,11 @@ export default function SellPage() {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    if (status === "authenticated" && session?.user?.email) {
+    if (
+      typeof window !== "undefined" &&
+      status === "authenticated" &&
+      session?.user?.email
+    ) {
       setUserEmail(session.user.email);
     }
     setIsClient(true); // Ensures that the component is rendered on the client-side
