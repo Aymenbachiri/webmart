@@ -7,6 +7,7 @@ import AuthProvider from "@/components/providers/AuthProvider";
 import MaterialTailwindProvider from "@/components/providers/MaterialTailwindProvider";
 import ReduxProvider from "@/components/providers/ReduxProvider";
 import Hreflang from "@/components/translation/Hreflang";
+import { useSession } from "next-auth/react";
 
 export default function LocaleLayout({
   children,
