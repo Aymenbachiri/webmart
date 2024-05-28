@@ -44,9 +44,7 @@ export default function SellPage() {
   if (!isAuthenticated) {
     return null;
   }
-  if (status === "loading") {
-    return <LoadingSpinner />;
-  }
+
   // Ensure the component is only rendered on the client-side
   if (!isClient || !isAuthenticated) {
     return null;
