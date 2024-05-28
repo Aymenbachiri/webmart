@@ -53,6 +53,9 @@ export default function SellPage() {
   if (!isClient || !isAuthenticated) {
     return null;
   }
+  if (status === "loading") {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="max-w-md mx-auto mt-10 bg-white shadow-lg rounded-lg overflow-hidden">
