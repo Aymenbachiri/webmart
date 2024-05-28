@@ -1,6 +1,6 @@
 import SellPage from "@/pages/SellPage";
 import { getMetadata } from "@/seo/SellPage";
-import { PageProps } from "@/types/types";
+import type { PageProps } from "@/types/types";
 import type { Metadata } from "next";
 
 export async function generateMetadata({

@@ -6,9 +6,26 @@ import useCurrentLanguage from "@/hooks/useCurrentLanguage";
 import { useFormState } from "@/hooks/useFormState";
 import { useHandleSubmit } from "@/hooks/useHandleSubmit";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 export default function SellPage() {
-  const session = useSession();
+  const { data: session, status } = useSession();
+  const [userEmail, setUserEmail] = useState("");
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    if (status === "authenticated" && session?.user?.email) {
+      setUserEmail(session.user.email);
+    }
+    setIsClient(true); // Ensures that the component is rendered on the client-side
+
+    // Cleanup function
+    return () => {
+      setUserEmail("");
+      setIsClient(false);
+    };
+  }, [session, status]);
+
   const currentLanguage = useCurrentLanguage();
   const isAuthenticated = useAuthRedirect();
 
@@ -22,11 +39,10 @@ export default function SellPage() {
   });
   const { title, category, price, description, imageurl, rating } = formState;
 
-  const userEmail = session.data?.user?.email || "";
-
   const handleSubmit = useHandleSubmit(formState, currentLanguage, userEmail);
 
-  if (!isAuthenticated) {
+  // Ensure the component is only rendered on the client-side
+  if (!isClient || !isAuthenticated) {
     return null;
   }
 
