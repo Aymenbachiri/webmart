@@ -1,6 +1,7 @@
 "use client";
 
 import { CommonProps } from "@/constants/Constants";
+import { useChangeLanguage } from "@/hooks/useChangeLanguage";
 import AlgeriaFlag from "@/svg/translation/AlgeriaFlag";
 import FranceFlag from "@/svg/translation/FranceFlag";
 import UsaFlag from "@/svg/translation/UsaFlag";
@@ -12,20 +13,9 @@ import {
   MenuItem,
   IconButton,
 } from "@material-tailwind/react";
-import { usePathname, useRouter } from "next/navigation";
 
 export default function TranslationMenu() {
-  const pathName = usePathname();
-  const router = useRouter();
-
-  const handleChangeLanguage = (lang: string) => {
-    // Extract the current path without the language segment
-    const pathWithoutLang = pathName.replace(/\/[a-z]{2}\b/i, "");
-
-    // Redirect to the selected language route appended with the current route path
-    router.push(`/${lang}${pathWithoutLang}`);
-    router.refresh();
-  };
+  const handleChangeLanguage = useChangeLanguage();
   return (
     <Menu>
       <MenuHandler className="dark:text-black">
