@@ -9,6 +9,6 @@ const metadataConfig: { [key: string]: Metadata } = {
   ar: metadataAr,
 };
 
-export function getMetadata(locale: string): Metadata {
+export async function getMetadata(locale: string): Promise<Metadata> {
   return metadataConfig[locale] || metadataConfig.en;
 }
