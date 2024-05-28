@@ -5,6 +5,7 @@ import { Providers } from "@/components/providers/ThemeProvider";
 import StickyNavbar from "@/components/navbar/StickyNavbar";
 import AuthProvider from "@/components/providers/AuthProvider";
 import MaterialTailwindProvider from "@/components/providers/MaterialTailwindProvider";
+import ReduxProvider from "@/components/providers/ReduxProvider";
 
 export default function LocaleLayout({
   children,
@@ -25,12 +26,14 @@ export default function LocaleLayout({
         <AuthProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
             <Providers>
-              <MaterialTailwindProvider>
-                <>
-                  <StickyNavbar />
-                  {children}
-                </>
-              </MaterialTailwindProvider>
+              <ReduxProvider>
+                <MaterialTailwindProvider>
+                  <>
+                    <StickyNavbar />
+                    {children}
+                  </>
+                </MaterialTailwindProvider>
+              </ReduxProvider>
             </Providers>
           </NextIntlClientProvider>
         </AuthProvider>
