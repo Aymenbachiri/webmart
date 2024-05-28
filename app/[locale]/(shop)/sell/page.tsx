@@ -7,6 +7,6 @@ export function generateMetadata({ params }: PageProps): Metadata {
   return getMetadata(params.locale);
 }
 
-export default function Sell(): JSX.Element {
+export default function Sell() {
   return <SellPage />;
 }
