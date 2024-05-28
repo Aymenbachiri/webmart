@@ -1,31 +1,15 @@
 "use client";
 
 import InputField from "@/components/InputField";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 import useCurrentLanguage from "@/hooks/useCurrentLanguage";
 import { useFormState } from "@/hooks/useFormState";
 import { useHandleSubmit } from "@/hooks/useHandleSubmit";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 
 export default function SellPage() {
-  const { data: session, status } = useSession();
-  const [userEmail, setUserEmail] = useState("");
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    if (status === "authenticated" && session?.user?.email) {
-      setUserEmail(session.user.email);
-    }
-    setIsClient(true); // Ensures that the component is rendered on the client-side
-
-    // Cleanup function
-    return () => {
-      setUserEmail("");
-      setIsClient(false);
-    };
-  }, [session, status]);
-
+  const session = useSession();
   const currentLanguage = useCurrentLanguage();
   const isAuthenticated = useAuthRedirect();
 
@@ -39,11 +23,15 @@ export default function SellPage() {
   });
   const { title, category, price, description, imageurl, rating } = formState;
 
+  const userEmail = session.data?.user?.email || "";
+
   const handleSubmit = useHandleSubmit(formState, currentLanguage, userEmail);
 
-  // Ensure the component is only rendered on the client-side
-  if (!isClient || !isAuthenticated) {
+  if (!isAuthenticated) {
     return null;
+  }
+  if (session.status === "loading") {
+    return <LoadingSpinner />;
   }
 
   return (
