@@ -9,10 +9,12 @@ export const useAuthRedirect = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (session.status === "unauthenticated") {
+    if (session && session.status === "unauthenticated") {
       router.push(`/${currentLanguage}/login`);
     }
-  }, [session.status, currentLanguage, router]);
+
+    return () => {};
+  }, [session, currentLanguage, router]);
 
   return session.status === "authenticated";
 };

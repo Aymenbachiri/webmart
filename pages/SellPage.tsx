@@ -22,7 +22,7 @@ export default function SellPage() {
   });
   const { title, category, price, description, imageurl, rating } = formState;
 
-  const userEmail = session.data?.user?.email ?? undefined;
+  const userEmail = session.data?.user?.email || "";
 
   const handleSubmit = useHandleSubmit(formState, currentLanguage, userEmail);
 
