@@ -3,7 +3,9 @@ import { getMetadata } from "@/seo/SellPage";
 import { PageProps } from "@/types/types";
 import type { Metadata } from "next";
 
-export function generateMetadata({ params }: PageProps): Metadata {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   return getMetadata(params.locale);
 }
 
