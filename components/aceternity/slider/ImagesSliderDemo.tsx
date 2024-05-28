@@ -1,13 +1,11 @@
 "use client";
 import { motion } from "framer-motion";
-import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { ImagesSlider } from "./ImagesSlider";
+import useCurrentLanguage from "@/hooks/useCurrentLanguage";
 
 export function ImagesSliderDemo() {
-  const pathName = usePathname();
-  const currentLanguage = pathName.split("/")[1] || "en";
+  const currentLanguage = useCurrentLanguage();
   const images = [
     "https://img.freepik.com/free-photo/interior-clothing-store-with-stylish-merchandise-racks-fashionable-brand-design-casual-wear-modern-boutique-empty-fashion-showroom-shopping-centre-with-elegant-merchandise_482257-65537.jpg?t=st=1716471656~exp=1716475256~hmac=ce0c30506cef84eddaa6df0290754729cc1b1afeefe8bb440055b38b4b2f16a9&w=996",
     "https://img.freepik.com/free-photo/cheerful-shopper-holding-orange-shopping-bag-shoulder-turn-around-camera-with-thumbs-up-recomm_1258-164210.jpg?t=st=1716471664~exp=1716475264~hmac=1b35588c8e4139eeee0358f14c3fbbba8d8affebe4c114e58078062fe84cf275&w=996",

@@ -1,8 +1,8 @@
-import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
 
 const useCurrentLanguage = (): string => {
-  const pathName = usePathname();
-  return pathName.split("/")[1] || "en";
+  const locale = useLocale();
+  return locale || "en";
 };
 
 export default useCurrentLanguage;
