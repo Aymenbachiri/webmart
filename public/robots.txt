@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+Disallow: /log-in
+
+Sitemap: https://webmart-sigma.vercel.app/sitemap.xml

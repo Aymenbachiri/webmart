@@ -45,12 +45,12 @@ export default function LocaleLayout({
 
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
-      {/* <head>
+      <head>
         <Hreflang
           supportedLanguages={supportedLanguages}
           defaultLocale={defaultLocale}
         />
-      </head> */}
+      </head>
       <body>
         <AuthProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
