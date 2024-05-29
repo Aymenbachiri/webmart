@@ -9,6 +9,24 @@ import ReduxProvider from "@/components/providers/ReduxProvider";
 import Hreflang from "@/components/translation/Hreflang";
 import { useSession } from "next-auth/react";
 
+// export const metadata = {
+//   alternates: {
+//     canonical: "https://webmart-sigma.vercel.app",
+//     languages: {
+//       en: "https://webmart-sigma.vercel.app/en",
+//       fr: "https://webmart-sigma.vercel.app/fr",
+//       ar: "https://webmart-sigma.vercel.app/ar",
+//     },
+//     media: {
+//       "only screen and (max-width: 600px)":
+//         "https://webmart-sigma.vercel.app/mobile",
+//     },
+//     types: {
+//       "application/rss+xml": "https://webmart-sigma.vercel.app/rss",
+//     },
+//   },
+// };
+
 export default function LocaleLayout({
   children,
   params: { locale },
@@ -24,14 +42,15 @@ export default function LocaleLayout({
   }
   const supportedLanguages = ["en", "fr", "ar"];
   const defaultLocale = "en";
+
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
-      <head>
+      {/* <head>
         <Hreflang
           supportedLanguages={supportedLanguages}
           defaultLocale={defaultLocale}
         />
-      </head>
+      </head> */}
       <body>
         <AuthProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
